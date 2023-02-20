@@ -1,0 +1,251 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+
+class The_worst_BD 
+{
+    static void Main() 
+    {
+        List<Tovar> goods = new List<Tovar>();
+        List<string> deadfood = new List<string>();
+        List<string> searh = new List<string>();
+        List<string> ostatok = new List<string>();
+        List<string> empty = new List<string>();
+        List<string> firms = new List<string>();
+        
+        Tovar milk = new Tovar("Молоко 2,5%", "12 02 23", "120", "ООО \"Сливочный мир\"", "15 02 23", "33", "200");
+        goods.Add(milk);
+        Tovar meat = new Tovar("Мясо свиное \"Фирменное\"", "01 01 23", "40", "ЗАО \"У Ашота\"", "13 01 23", "48", "50");
+        goods.Add(meat);
+        Tovar bread = new Tovar("Хлеб \"Шотландский\" 400г.", "27 08 22", "15", "ООО \"Сибирский Пекарь\"", "23 09 22", "16", "30");
+        goods.Add(bread);
+        Tovar eggs = new Tovar("Яйцо \"Грусный петушок\" 10 шт.", "14 02 23", "30", "ЗАО \"Зелёная компания\"", "19 02 23", "9", "15");
+        goods.Add(eggs);
+        Tovar dumplings = new Tovar("Пельмени \"Гаврики\" 800г.", "30 06 22", "365", "ООО \"Торг Мира\"", "22 02 23", "32", "100");
+        goods.Add(dumplings);
+        
+        for (int i = 0; i < goods.Count; i++)
+        {
+            ostatok.Add(goods[i].name + " - " + goods[i].Ostatok(goods[i].CountAll, goods[i].CountSales)); // ищет остаток
+                
+            if (goods[i].WasSaled(goods[i].CountAll, goods[i].CountSales) == true)  // массивы этих методов заполняются сразу
+                empty.Add(goods[i].name);
+        }
+        
+        while (true)
+        {
+            menu();
+            Console.WriteLine();
+            
+            int m = int.Parse(Console.ReadLine()); // m - variation
+            
+            Console.WriteLine();
+            Console.Clear();
+        
+            if (m == 1)
+            {
+                string a, b, c, d, e, f, g;
+                Console.Write("Введите название: ");
+                a = Console.ReadLine();
+                Console.Write("Изготовитель: ");
+                d = Console.ReadLine();
+                Console.Write("Кол-во на складе: ");
+                g = Console.ReadLine();
+                Console.Write("Дата изготовления: ");
+                b = Console.ReadLine();
+                Console.Write("Срок годности: ");
+                c = Console.ReadLine();
+                Console.Write("Кол-во проданного товара: ");
+                f = Console.ReadLine();
+                Console.Write("Дата продажи: ");
+                e = Console.ReadLine();
+                
+                Tovar food2 = new Tovar(a, b, c, d, e, f, g);
+                goods.Add(food2);
+                
+                Console.Clear();
+                Console.Write("Товар " + food2.name + " добавлен!");
+            }
+            
+            if (m == 2)
+            {
+                Console.Write("Введите текущую дату: ");
+                string l = Console.ReadLine();
+                for (int i = 0; i < goods.Count; i++)
+                { 
+                    if (goods[i].Deadline(l, goods[i].dateOFbegin, goods[i].dateOFend) == true)
+                    deadfood.Add(goods[i].name);
+                }
+                
+                if (deadfood.Count == 0)
+                    Console.WriteLine("Нет просроченных товаров!");
+                else
+                {
+                    foreach (string name in deadfood)
+                    Console.WriteLine(name);
+                }
+                GoToMenu();
+            }
+            
+            if (m == 3)
+            {
+                Console.Write("Введите фирму: ");
+                string w = Console.ReadLine();
+                for (int i = 0; i < goods.Count; i++)
+                {
+                    if (goods[i].Searh(w, goods[i].company) == true)
+                        {
+                            searh.Add(goods[i].name);  // содержится
+                            firms.Add(goods[i].company);
+                        }
+                }
+                if (searh.Count == 0)
+                    Console.WriteLine("Нет товаров от данной компании!");
+                else
+                {
+                    if (firms.Count == 1)
+                        Console.WriteLine("Поиск по фирме: " + firms[0]);
+                    else
+                        {
+                            Console.Write("Поиск по фирмам: ");
+                            foreach (string firm in firms)
+                                Console.Write(firm + " ");
+                                Console.WriteLine();
+                        }
+                    foreach (string name in searh)
+                    Console.WriteLine(name);
+                }
+                GoToMenu();
+            }
+            
+            if (m == 4)
+            {
+                if (ostatok.Count == 0)
+                    Console.WriteLine("Склад пуст!");
+                else
+                {
+                    foreach (string name in ostatok)
+                    Console.WriteLine(name);
+                }
+                GoToMenu();
+            }
+            
+            if (m == 5)
+            {
+                if (empty.Count == 0)
+                    Console.WriteLine("Нет закончившихся товаров.");
+                else
+                {
+                    foreach (string name in empty)
+                    Console.WriteLine(name);
+                }
+                GoToMenu();
+            }
+
+            if (m == 6)
+            {
+                ShowAll(goods);
+                GoToMenu();
+            }
+            
+            if (m == 0)
+            {
+                break;
+            }
+        }
+    }
+    
+    static void menu()
+    {
+        Console.WriteLine("1.Создать товар");
+        Console.WriteLine("2.Показать просрочку");
+        Console.WriteLine("3.Найти товар по фирме");
+        Console.WriteLine("4.Показать остаток на складе");
+        Console.WriteLine("5.Показать товары, к-рые кончились");
+        Console.WriteLine("6.Показать все товары");
+        Console.WriteLine("0.Выход");
+    }
+    
+    static void ShowAll(List<Tovar> goods)
+    {
+        foreach (Tovar product in goods)
+            product.Print();
+    }
+    
+    static void GoToMenu()
+    {
+        Console.WriteLine("\nНажмите на любую клавишу...");
+        Console.ReadKey();
+        Console.Clear();
+    }
+}
+
+public class Tovar
+{
+    public string name;
+    public string dateOFbegin;
+    public string dateOFend;
+    public string company;
+    public string dateOFsale;    
+    public string CountSales;
+    public string CountAll;
+    
+    public Tovar(string name, string dateOFbegin, string dateOFend, string company, string dateOFsale, string CountSales, string CountAll)
+    {
+        this.name = name;
+        this.dateOFbegin = dateOFbegin;
+        this.dateOFend = dateOFend;
+        this.company = company;
+        this.dateOFsale = dateOFsale;
+        this.CountSales = CountSales;
+        this.CountAll = CountAll;
+    }
+    
+    public void Print()
+    {
+        Console.WriteLine("Название: " + name);
+        Console.WriteLine("Производитель: " + company);
+        Console.WriteLine("Кол-во на складе: " + CountAll);
+        Console.WriteLine("Дата производства: " + dateOFbegin);
+        Console.WriteLine("Срок годности (в днях): " + dateOFend);
+        Console.WriteLine("Количество проданных: " + CountSales);
+        Console.WriteLine("Дата продажи: " + dateOFsale);
+        Console.WriteLine();
+    }
+
+    public bool Searh(string input, string company)
+    {
+        return company.ToLower().Contains(input);
+    }
+
+    public bool Deadline(string dateNow, string dateOFbegin, string dateOFend)
+    {
+        int n = 3; // data.Length always 3
+        
+        string[] str = new string[n];
+        str = dateOFbegin.Split(new[] {'.', ' '});
+        int daysBegin = int.Parse(str[0]) + int.Parse(str[1]) * 30 + int.Parse(str[2]) * 365;
+        
+        string[] str2 = new string[n];
+        str2 = dateNow.Split(new[] {'.', ' '});
+        int daysNow = int.Parse(str2[0]) + int.Parse(str2[1]) * 30 + int.Parse(str2[2]) * 365;
+        
+        if (daysBegin + int.Parse(dateOFend) < daysNow)
+        return true;
+        else
+        return false;
+    }
+    
+    public string Ostatok(string CountAll, string CountSales)
+    {
+        return Convert.ToString(int.Parse(CountAll) - int.Parse(CountSales));
+    }
+    
+    public bool WasSaled(string CountAll, string CountSales)
+    {
+        if (int.Parse(CountAll) == int.Parse(CountSales))
+        return true;
+        else
+        return false;
+    }
+}
