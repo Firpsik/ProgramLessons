@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SomeHereName
+{
+    public delegate double Calculat(double num1, double num2);
+
+    interface ICalculator
+    {
+        double Add(double a, double b);
+
+        double difference(double a, double b);
+
+        double multiplication(double a, double b);
+
+        double division(double a, double b);
+    }
+
+    class SomethingFunc : ICalculator
+    {
+        public double Add(double a, double b)
+        {
+            return a + b;
+        }
+
+        public double difference(double a, double b)
+        {
+            return a - b;
+        }
+
+        public double multiplication(double a, double b)
+        {
+            return a * b;
+        }
+
+        public double division(double a, double b)
+        {
+            return a / b;
+        }
+    }
+
+    class Program : SomethingFunc
+    {
+        static void func(double[] ints, double num, Calculat some, SomethingFunc S)
+         {
+             ints = Array.ConvertAll(Console.ReadLine().Split(' '), Convert.ToDouble);
+             num = some(ints[0], ints[1]);
+             Console.WriteLine("Ответ: " + num + "\n");                      
+         }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите знак операции, а после 2 числа через пробел (используйте 0 для выхода):");
+            while (true)
+            {
+                string str = Console.ReadLine();
+                double num = 0;
+                double[] ints = new double[2];
+                SomethingFunc S = new SomethingFunc();
+                switch (str)
+                {
+                    case "+":
+                        Calculat some = new Calculat(S.Add);
+                        func(ints, num, some, S);
+                        break;
+
+                    case "-":
+                        some = new Calculat(S.difference);
+                        func(ints, num, some, S);
+                        break;
+
+                    case "*":
+                        some = new Calculat(S.multiplication);
+                        func(ints, num, some, S);
+                        break;
+
+                    case "/":
+                        some = new Calculat(S.division);
+                        func(ints, num, some, S);
+                        num = some(ints[0], ints[1]);
+                        Console.WriteLine("Ответ: " + num + "\n");
+                        break;
+
+                    case "0": Environment.Exit(0); break;
+
+                    default:
+                        Console.WriteLine("Следуйте инструкции!");
+                        break;
+                }
+            }
+        }
+    }
+}
