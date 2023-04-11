@@ -80,8 +80,6 @@ namespace SomeHereName
                     case "/":
                         some = new Calculat(S.division);
                         func(ints, num, some, S);
-                        num = some(ints[0], ints[1]);
-                        Console.WriteLine("Ответ: " + num + "\n");
                         break;
 
                     case "0": Environment.Exit(0); break;
