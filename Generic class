@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+
+public class Some<T>
+{
+    public List<T> arr;
+
+    public Some(List<T> list)
+    {
+        arr = list;
+    }
+
+    public void Add(T value)
+    {
+        arr.Add(value);
+    }
+
+    public void Delete(T value)
+    {
+        arr.Remove(value);
+        print(arr);
+    }
+
+    public void Index(T value)
+    {
+        Console.WriteLine(arr.FindIndex(x => x.Equals(value)));
+    }
+
+    public void print(List<T> arr)
+    {
+        foreach (T some in arr)
+            Console.Write(some + " ");
+        Console.WriteLine();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        var listInt = new List<int>() { 3, 4, 5 };
+        Some<int> list1 = new Some<int>(listInt);
+        Console.WriteLine("Добавление элементов типа <int>: 4, 6");
+        list1.Add(1);
+        list1.Add(6);
+        list1.print(list1.arr);
+        Console.WriteLine("Удаление элемента 5 типа <int>");
+        list1.Delete(5);
+        Console.Write("Поиск индекса элемента 4 типа <int>: ");
+        list1.Index(4);
+
+        var listString = new List<string>() { "some", "words", "here" };
+        Some<string> list2 = new Some<string>(listString);
+        Console.WriteLine("\nДобавление элементов типа <string>: \"fff\", \"ggg\", \"hhh\"");
+        list2.Add("fff");
+        list2.Add("ggg");
+        list2.Add("hhh");
+        list2.print(list2.arr);
+        Console.WriteLine("Удаление элемента \"ggg\" типа <string>");
+        list2.Delete("ggg");
+        Console.Write("Поиск индекса элемента \"hhh\" типа <string>: ");
+        list2.Index("hhh");
+    }
+}
