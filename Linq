@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication12
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var mas = new List<int>() { 1, 2, 55, -13, -78, 0, 14, 77, 13 };
+
+            var some1 = from num in mas  // ненулевые
+                       where num != 0
+                       select num;
+            int netral = 0;
+            foreach (var num in some1)
+                netral++;
+            Console.WriteLine(netral);
+
+
+            var some2 = from num in mas  // положительные
+                       where num > 0
+                       select num;
+            int pozit = 0;
+            foreach (var num in some2)
+                pozit++;
+            Console.WriteLine(pozit);
+
+            var some3 = from num in mas  // чётные
+                        where num % 2 == 0 
+                        select num;
+            int even = 0;
+            foreach (var num in some1)
+                even++;
+            Console.WriteLine(even);
+
+            var max = mas.Max(i => i);   // Max
+            Console.WriteLine(max);
+
+            var min = mas.Min(i => i);   // Min
+            Console.WriteLine(min);
+
+            mas.RemoveAll(x => x <= 0);
+
+            max = mas.Max(i => i);   // Max
+            Console.WriteLine(max);
+
+            min = mas.Min(i => i);   // Min
+            Console.WriteLine(min);
+
+            Console.ReadKey();
+        }
+    }
+}
