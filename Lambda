@@ -1,0 +1,67 @@
+using System;
+
+class SomeApp
+{
+    delegate double calculate(double x, double y, double z);
+    
+    static calculate Min = (x, y, z) => Math.Min(x, Math.Min(y, z));
+    static calculate Max = (x, y, z) => Math.Max(x, Math.Max(y, z));
+    static calculate Sum = (x, y, z) => x + y + z;
+    static calculate ArMean = (x, y, z) => (x + y + z) / 3;
+    static calculate Multip = (x, y, z) => x * y * z;
+    
+    static void Main()
+    {
+        while (true)
+        {
+            Console.WriteLine("Введите 3 числа: ");
+            var inp = Array.ConvertAll(Console.ReadLine().Split(), Convert.ToDouble);
+            Console.Clear();
+            
+            menu();
+            var find = Console.ReadLine();
+            Console.Clear();
+                
+            switch (find)
+            {
+                case "1":
+                    Console.WriteLine("Минимальный = " + Min(inp[0], inp[1], inp[2]));
+                    break;
+
+                case "2":
+                    Console.WriteLine("Максимальный = " + Max(inp[0], inp[1], inp[2]));
+                    break;
+
+                case "3":
+                    Console.WriteLine("Сумма чисел = " + Sum(inp[0], inp[1], inp[2]));
+                    break;
+
+                case "4":
+                    Console.WriteLine("Произведение чисел = " + Multip(inp[0], inp[1], inp[2]));
+                    break;
+
+                case "5":
+                    Console.WriteLine("Armean = " + ArMean(inp[0], inp[1], inp[2]));
+                    break;
+                    
+                case "0": Environment.Exit(0); break;
+                
+                default: Console.WriteLine("Ошибка ввода!"); break;
+            }
+            
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+    
+    static void menu()
+    {
+        Console.WriteLine("Выберете функцию: ");
+        Console.WriteLine("1. Минимальное число");
+        Console.WriteLine("2. Максимальное число");
+        Console.WriteLine("3. Сумму чисел");
+        Console.WriteLine("4. Произведение чисел");
+        Console.WriteLine("5. Среднее арифметическое");
+        Console.WriteLine("0. Выход");
+    }
+}
