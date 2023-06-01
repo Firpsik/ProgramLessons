@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SomeApp13
+{
+    class Supply
+    {
+        public string ProductName { get; set; }
+        public string SupplierName { get; set; }
+        public DateTime Date { get; set; }
+
+        public Supply(string productName, string supplierName, DateTime date)
+        {
+            ProductName = productName;
+            SupplierName = supplierName;
+            Date = date;
+        }
+    }
+    
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Supply> supplies = new List<Supply>()
+            {
+                new Supply("Рыбные палочки", "ОАО Свекровь", new DateTime(2023, 10, 1)),
+                new Supply("Котлеты \"Киевская Русь\"", "ИП Пригожин В.А.", new DateTime(2023, 10, 2)),
+                new Supply("Уплетайки мясные (100% без мяса)", "ООО Утяшево", new DateTime(2023, 10, 3)),
+                new Supply("Яршинрак", "ЗАО Китай-город", new DateTime(2023, 10, 4)),
+                new Supply("Бульонтон", "ИП Конь К.И.", new DateTime(2023, 10, 5))
+            };
+
+            var sortedBySupplierName = from s in supplies
+                                       orderby s.SupplierName
+                                       select s;
+            Console.WriteLine("Сортировка по названию фирмы:");
+            foreach (var supply in sortedBySupplierName)
+                Console.WriteLine("Продукт: " + supply.ProductName + ", Поставщик: " + supply.SupplierName 
+                + ", Дата поставки: " + supply.Date.ToShortDateString());
+
+            var sortedByProductName = from s in supplies
+                                      orderby s.ProductName
+                                      select s;
+            Console.WriteLine("\nСортировка по названию продукта:");
+            foreach (var supply in sortedByProductName)
+                Console.WriteLine("Продукт: " + supply.ProductName + ", Поставщик: " + supply.SupplierName 
+                + ", Дата поставки: " + supply.Date.ToShortDateString());
+
+            var sortedByDate = from s in supplies
+                               orderby s.Date
+                               select s;
+            Console.WriteLine("\nСортировка по дате:");
+            foreach (var supply in sortedByDate)
+                Console.WriteLine("Продукт: " + supply.ProductName + ", Поставщик: " + supply.SupplierName 
+                + ", Дата поставки: " + supply.Date.ToShortDateString());
+        }
+    }
+}
