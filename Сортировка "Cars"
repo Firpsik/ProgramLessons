@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Car
+{
+    public string id;
+    public string mark;
+    public string color;
+    public int yearOfCreate;
+
+    public Car(string id, string mark, string color, int yearOfCreate)
+    {
+        this.id = id;
+        this.mark = mark;
+        this.color = color;
+        this.yearOfCreate = yearOfCreate;
+    }
+}
+
+class Driver
+{
+    public string name;
+    public Car car;
+
+    public Driver(string name, Car car)
+    {
+        this.name = name;
+        this.car = car;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<Driver> drivers = new List<Driver>
+        {
+            new Driver("Козлов Д.В.", new Car("С144ПО/ZFA22300005556777", "BMW", "Желтый", 2019)),
+            new Driver("Роман И.Ю.", new Car("Е126КС/WMI22300004353377", "Audi", "Чёрный", 2016)),
+            new Driver("Лисов П.П.", new Car("К442ОВ/ZFA22300003546771", "Mercedes", "Тёмно-серый", 2012))
+        };
+
+        var sortedByCars = from driver in drivers
+                             orderby driver.car.id
+                             select driver;
+
+        Console.WriteLine("Сортировка водителей по id:");
+        foreach (var driver in sortedByCars)
+            Console.WriteLine(driver.name);
+
+        var sortedCarsByDriverName = from driver in drivers
+                                     orderby driver.name
+                                     select driver;
+
+        Console.WriteLine("\nСортировка машин по фамилии владельцев:");
+        foreach (var driver in sortedCarsByDriverName)
+            Console.WriteLine(driver.car.mark);
+
+        var sortedDriversByCarMark = from driver in drivers
+                                     orderby driver.car.mark
+                                     select driver;
+
+        Console.WriteLine("\nСортировка владельцев по марке авто:");
+        foreach (var driver in sortedDriversByCarMark)
+            Console.WriteLine(driver.name);
+    }
+}
